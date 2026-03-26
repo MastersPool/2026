@@ -368,10 +368,11 @@ function scoreClass(s) {
   return n < 0 ? 'under' : 'over';
 }
 
-function formatScore(s) {
-  if (!s) return 'E';
+function formatScore(s, isElim) {
+  if (!s) return isElim ? 'CUT' : 'E';
   var n = parseInt(s);
   if (isNaN(n)) return s;
+  if (n === 999) return 'CUT';
   if (n === 0) return 'E';
   return n > 0 ? '+' + n : String(n);
 }
@@ -426,7 +427,7 @@ function render(rows) {
       '<div class="row-main">' +
         '<div class="place">' + place + '</div>' +
         '<div class="player-name">' + trophy + name + '<div class="mobile-picks">' + mobilePicks + '</div></div>' +
-        '<div class="score ' + sc + '">' + formatScore(score) + '</div>' +
+        '<div class="score ' + sc + '">' + formatScore(score, isElim) + '</div>' +
         '<div class="outlook">' + outlook + '</div>' +
         golfers.map(function(g) { return '<div class="golfer-cell">' + g + '</div>'; }).join('') +
       '</div>';
