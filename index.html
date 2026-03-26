@@ -340,6 +340,8 @@
 
 </div>
 <script>
+var lastGoodRows = null;
+
 var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ43n1MzwpbzB0rGXhiSqf9q7kLaSRjjpCoA3Xs_vFgEvI7JLaoqkZ50_LT9bzrmLCzf1WUSw5LzIFl/pub?gid=1968497575&single=true&output=csv';
 
 function parseCSV(text) {
@@ -460,6 +462,15 @@ function fetchData() {
       var text = new TextDecoder('utf-8').decode(buffer);
       var rows = parseCSV(text);
       if (!rows.length) throw new Error('No data');
+      var allE = rows.every(function(r) {
+        var s = (r[2] || '').trim();
+        return s === '' || s === 'E' || s === '0';
+      });
+      if (allE && lastGoodRows) {
+        rows = lastGoodRows;
+      } else if (!allE) {
+        lastGoodRows = rows;
+      }
       render(rows);
       var hasOutlook = rows.some(function(r) { return r[3] && r[3].trim() !== ''; });
       var ohdr = document.querySelector('.outlook-header');
