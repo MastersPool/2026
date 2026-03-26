@@ -282,7 +282,7 @@
 
   @media(max-width:700px){
     .col-headers,.row-main{ grid-template-columns: 44px 1fr 60px; }
-    .picks-header,.outlook,.golfer-cell{ display:none; }
+    .picks-header,.outlook,.golfer-cell,.outlook-header{ display:none; }
     .player-name{ font-size:15px; }
     .place,.score{ font-size:18px; }
     .player-row{ padding:0 16px; }
@@ -311,7 +311,7 @@
       <span></span>
       <span>Player</span>
       <span style="text-align:center">Score</span>
-      <span>Weekend Outlook</span>
+      <span class="outlook-header">Weekend Outlook</span>
       <span class="picks-header">Golfers Picked</span>
     </div>
     <div id="rows">
@@ -403,7 +403,7 @@ function render(rows) {
     div.className = 'player-row' + (isFirst ? ' first-place' : '');
     div.style.animationDelay = (i * 0.07) + 's';
     var sc = scoreClass(score);
-    var trophy = isFirst ? '<span class="trophy">&#127942;</span>' : '';
+    var trophy = '';
 
     var mobilePicks = golferNames.map(function(g) {
       if (!g || g === '-') return '';
@@ -463,4 +463,3 @@ setInterval(fetchData, 60000);
 </script>
 </body>
 </html>
-
