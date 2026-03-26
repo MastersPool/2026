@@ -413,7 +413,7 @@ function render(rows) {
     var outlook = row[3] || '';
     var golferNames = [row[4], row[5], row[6], row[7], row[8]];
     var golfers = golferNames.map(function(g) { return g || '-'; });
-    var isFirst = /^1/.test(place.trim());
+    var isFirst = place.trim() === '1st';
     var isElim = place.trim() === '—' || place.trim() === '-' || place.trim() === '';
     var div = document.createElement('div');
     div.className = 'player-row' + (isFirst ? ' first-place' : '') + (isElim ? ' eliminated' : '');
