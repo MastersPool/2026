@@ -81,6 +81,15 @@
 
   .header h1 span { color: var(--gold); }
 
+  .annual {
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(201,168,76,0.45);
+    margin-top: 4px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
   .header-sub {
     font-family: 'Crimson Pro', serif;
     font-style: italic;
@@ -254,6 +263,16 @@
 
   .trophy { display: inline-block; margin-right: 4px; font-size: 14px; }
 
+  .champ-year {
+    font-family: 'Crimson Pro', serif;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 600;
+    color: #e8c97a;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
   .skeleton-row {
     background: rgba(250,246,238,0.03);
     border: 1px solid rgba(201,168,76,0.08);
@@ -310,6 +329,7 @@
     <div class="header-badge">Augusta National &middot; April 2026</div>
     <h1>The <span>Masters</span></h1>
     <p class="header-sub">Pool Scoreboard</p>
+    <p class="annual">6th Annual</p>
     <div class="divider"></div>
   </div>
 
@@ -412,6 +432,7 @@ function render(rows) {
     var score   = row[2] || '';
     var outlook = row[3] || '';
     var golferNames = [row[4], row[5], row[6], row[7], row[8]];
+    var champYear = row[9] || '';
     var golfers = golferNames.map(function(g) { return g || '-'; });
     var isFirst = place.trim() === '1st';
     var isElim = place.trim() === '—' || place.trim() === '-' || place.trim() === '';
@@ -431,7 +452,7 @@ function render(rows) {
     div.innerHTML =
       '<div class="row-main">' +
         '<div class="place">' + place + '</div>' +
-        '<div class="player-name">' + trophy + name + '<div class="mobile-picks">' + mobilePicks + '</div></div>' +
+        '<div class="player-name">' + trophy + name + (champYear ? '<span class="champ-year">' + champYear + '</span>' : '') + '<div class="mobile-picks">' + mobilePicks + '</div></div>' +
         '<div class="score ' + sc + '">' + formatScore(score, isElim) + '</div>' +
         '<div class="outlook">' + outlook + '</div>' +
         golfers.map(function(g) { return '<div class="golfer-cell">' + g + '</div>'; }).join('') +
