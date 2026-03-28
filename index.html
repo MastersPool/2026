@@ -143,6 +143,44 @@
   .legend-pill.bubble { background: rgba(200,160,40,0.25); color: #e8c97a; border-color: rgba(200,160,40,0.3); }
   .legend-pill.danger { background: rgba(180,60,60,0.25);  color: #e07070; border-color: rgba(180,60,60,0.3); }
 
+  .day-badge {
+    display: inline-block;
+    text-align: center;
+    margin-top: 4px;
+  }
+  .day-badge-label {
+    font-family: 'Crimson Pro', serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.5);
+    margin-bottom: 5px;
+  }
+  .day-badge-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e8c97a;
+    letter-spacing: 0.05em;
+    display: block;
+  }
+  .day-badge-sub {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(250,246,238,0.4);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+  .day-badge-rule {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+    margin: 8px auto;
+  }
+
   .live-bar {
     display: flex;
     align-items: center;
@@ -365,9 +403,9 @@
   <div class="header">
     <div class="header-badge">Augusta National &middot; April 2026</div>
     <h1>The <span>Masters</span></h1>
-    <p class="header-sub">Pool Scoreboard</p>
-    <p class="annual">6th Annual</p>
+    <p class="annual">6th Annual Pool</p>
     <div class="divider"></div>
+    <div id="day-badge-container"></div>
     <div class="cut-legend" id="cut-legend">
       <span class="cut-badge" id="cut-badge">Projected cut: E</span>
       <span class="legend-pill safe mobile-only">Safe</span>
@@ -589,6 +627,44 @@ function fetchData() {
     });
 }
 
+function renderDayBadge() {
+  var container = document.getElementById('day-badge-container');
+  var day = new Date().getDay(); // 0=Sun, 4=Thu, 5=Fri, 6=Sat
+
+  var label, main, sub;
+
+  if (day === 4) {
+    label = 'Thursday &middot; Round 1';
+    main  = 'A Tradition Unlike Any Other';
+    sub   = null;
+  } else if (day === 5) {
+    label = 'Friday &middot; Round 2';
+    main  = 'Cut Day';
+    sub   = null;
+  } else if (day === 6) {
+    label = 'Saturday &middot; Round 3';
+    main  = 'Moving Day';
+    sub   = 'Time to climb';
+  } else if (day === 0) {
+    label = 'Sunday &middot; Round 4';
+    main  = 'Final Round';
+    sub   = null;
+  } else {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML =
+    '<div class="day-badge">' +
+      '<div class="day-badge-label">' + label + '</div>' +
+      '<div class="day-badge-rule"></div>' +
+      '<span class="day-badge-main">' + main + '</span>' +
+      '<div class="day-badge-rule"></div>' +
+      (sub ? '<div class="day-badge-sub">' + sub + '</div>' : '') +
+    '</div>';
+}
+
+renderDayBadge();
 fetchData();
 setInterval(fetchData, 60000);
 </script>
